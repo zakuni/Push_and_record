@@ -51,8 +51,8 @@ t = Thread.new do
         rec = 0
         puts rec
         rec_stop
-        renamed = "#{Time.now.min}-#{Time.now.sec}"
-        File.rename(File.expand_path("~/Movies/オーディオ収録.mov"), File.expand_path("~/Movies/#{renamed}.mov"))
+        renamed = "#{Time.now.day}-#{Time.now.min}-#{Time.now.sec}"
+        File.rename(File.expand_path("~/Movies/オーディオ収録.mov"), File.expand_path("~/Movies/#{renamed}.mov")) # ファイル名を日付と時間の付いたものにリネーム
         convert_path = (File.expand_path("~/Movies/#{renamed}"))
         `ffmpeg -i "#{convert_path}.mov" "#{convert_path}.mp3"` # movファイルをmp3に変換
         File.delete(File.expand_path("~/Movies/#{renamed}.mov")) # movファイルは消す
