@@ -1,3 +1,8 @@
 ## python server.pyを起動
 
-## push_and_record.rbを動かす
+>python python server.py
+
+push_and_record.rbを動かす
+--------------------------
+
+>ruby push_and_record.rb
