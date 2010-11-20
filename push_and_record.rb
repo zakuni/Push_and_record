@@ -55,12 +55,13 @@ t = Thread.new do
         File.rename(File.expand_path("~/Movies/オーディオ収録.mov"), File.expand_path("~/Movies/#{renamed}.mov")) # ファイル名を日付と時間の付いたものにリネーム
         convert_path = (File.expand_path("~/Movies/#{renamed}"))
         `ffmpeg -i "#{convert_path}.mov" "#{convert_path}.mp3"` # movファイルをmp3に変換
+        
         File.delete(File.expand_path("~/Movies/#{renamed}.mov")) # movファイルは消す
       end
     end
     sleep(0.1)
   end
-sock.close # ソケットを閉じる
+  sock.close # ソケットを閉じる
 end
 
 t.join
