@@ -41,7 +41,7 @@ t = Thread.new do
     
     puts "sensor0 #{sensors[0]}"
 
-    if (sensors[0] < 950) #ドアが開いたら録音開始
+    if (sensors[0] > 100) #ドアが開いたら録音開始
       unless rec == 1
         rec = 1
         puts rec
@@ -55,13 +55,13 @@ t = Thread.new do
         renamed = "#{Time.now.day}-#{Time.now.min}-#{Time.now.sec}"
         File.rename(File.expand_path("~/Movies/オーディオ収録.mov"), File.expand_path("~/Movies/#{renamed}.mov")) # ファイル名を日付と時間の付いたものにリネーム
         convert_path = (File.expand_path("~/Movies/#{renamed}"))
-        `ffmpeg -i "#{convert_path}.mov" "#{convert_path}.mp3"` # movファイルをmp3に変換
+#        `ffmpeg -i "#{convert_path}.mov" "#{convert_path}.mp3"` # movファイルをmp3に変換
         
-        File.delete(File.expand_path("~/Movies/#{renamed}.mov")) # movファイルは消す
+#        File.delete(File.expand_path("~/Movies/#{renamed}.mov")) # movファイルは消す
 
         # ここからアップロード部分
         begin
-          url = UploadClient::upload("#{convert_path}.mp3", 'http://masui.sfc.keio.ac.jp/gyaco/upload')
+             url = UploadClient::upload(File.expand_path("~/Movies/#{renamed}.mov"), 'http://masui.sfc.keio.ac.jp/gyaco/upload')
           puts url
         rescue => e
           STDERR.puts e
