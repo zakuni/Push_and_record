@@ -6,6 +6,7 @@ require 'thread'
 require "ffmpeg"
 include FFMpeg
 include Appscript
+require File.dirname(__FILE__)+'/lib/upload_client'
 
 i = 0
 
@@ -57,6 +58,17 @@ t = Thread.new do
         `ffmpeg -i "#{convert_path}.mov" "#{convert_path}.mp3"` # movファイルをmp3に変換
         
         File.delete(File.expand_path("~/Movies/#{renamed}.mov")) # movファイルは消す
+
+        # ここからアップロード部分
+        begin
+          url = UploadClient::upload("#{convert_path}.mp3", 'http://masui.sfc.keio.ac.jp/gyaco/upload')
+          puts url
+        rescue => e
+          STDERR.puts e
+          next
+        end
+        # ここまでアップロード部分
+
       end
     end
     sleep(0.1)
